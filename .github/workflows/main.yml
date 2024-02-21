@@ -1,4 +1,4 @@
-name: test-selenium
+name: Run Python script on schedule
 on: 
   push:
     branches:
@@ -7,23 +7,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: Checkout Repository
-        uses: actions/checkout@v2
-      - 
-        name: Setup Python
-        uses: actions/setup-python@v2
-      - 
-        name: Install Chrome
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
         run: |
-          sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo apt update
-          sudo apt-get install google-chrome-stable
-      - 
-        name: Install Package
-        run: |
-          pip install chromedriver-binary==94.*
+          pip install get-chrome-driver --upgrade
           pip install selenium
-      - 
-        name: Test Selenium
-        run: python takescreen.py
+      - name: Run Python script
+        run: python takescreenshot.py
