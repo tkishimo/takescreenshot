@@ -1,0 +1,2 @@
+# takescreenshot
+seleniumで巡回してscreenshot画像を補完する
