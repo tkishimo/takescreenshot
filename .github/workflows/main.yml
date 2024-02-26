@@ -26,3 +26,5 @@ jobs:
           pip install selenium
       - name: Run Python script
         run: python takescreenshot.py
+      - name: create compressed zip file from png files
+        run: tar -jcvf png.tar.bz2 *.png
